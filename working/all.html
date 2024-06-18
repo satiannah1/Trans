@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+  <title>Document</title>
+  <style>
+    body {
+      background-color: rgb(219, 229, 229);
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      height: 100vh;
+      margin: 0;
+      padding: 20px;
+    }
+
+    .slide {
+      background-color: rgb(253, 254, 254);
+      margin-top: 60px;
+      width: 5cm;
+      height: 12cm;
+      border-right: 2px solid rgb(148, 152, 148);
+      border-radius: 5px;
+      box-shadow: 0 10px 16px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
+      position: relative;
+      z-index: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: left;
+    }
+
+    .slide li {
+      margin-top: 30px;
+      margin-bottom: 20px;
+      color: rgb(119, 123, 126);
+    }
+
+    .whole {
+      background-color: #fff;
+      margin-top: 60px;
+      margin-left: -30px;
+      width: 25cm;
+      height: 12cm;
+      padding: 20px;
+      border-radius: 5px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
+     
+    }
+
+    .whole input {
+      width: 8cm;
+      height: 1.2cm;
+      border-radius: 9px;
+      border: none;
+      border-top: 2px solid #043d04;
+      margin-right: auto;
+    }
+    .dif {
+      background-color: #f1efed;
+      width: 5cm;
+      height: 3cm;
+      padding: 20px;
+      border-radius: 5px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
+      margin-top: 50px;
+      margin-left: 30px;
+     }
+     .dif i{
+      justify-content: center;
+      margin-left: 10px;
+      width: 1cm;
+     }
+    .fdif{
+     display: flex;
+     justify-content: center;
+    }
+     
+  </style>
+</head>
+<body>
+  <section class="slide">
+    <ul style="list-style-type: none;">
+      <li><i class='bx bxs-objects-horizontal-right' style='color:#043d04'></i>Dashboard</li>
+      <li><i class='bx bxs-home' style='color:#dc7b38'></i>Home</li>
+      <li><i class='bx bxs-plane' style='color:#c7d0c3'></i>Transport</li>
+      <li><i class='bx bxs-building-house' style='color:#a80a0c'></i>Warehouses</li>
+      <li><i class='bx bxs-ship' style='color:#222020'></i>Cargo</li>
+      <li><i class='bx bxs-user-circle bx-flashing' style='color:#53b843'></i>Profile</li>
+      <li><button >Register</button></li>
+    </ul>
+  </section>
+
+  <section class="whole">
+   <input type="search" placeholder="Search...">
+
+   <div class="fdif">
+    <div class="dif">
+     <h2>Transport</h2>
+     <i class='bx bxs-plane-take-off' style='color:#161615'></i>
+     <i class='bx bxs-bus-school' style='color:#db6e1b'></i>
+     <i class='bx bxs-car' style='color:#bbb4af'></i>
+     <p>Totals:  </p>
+    </div>
+    <div class="dif">
+     <h2>Warehouses</h2>
+     <i class='bx bxs-plane-take-off' style='color:#161615'></i>
+     <i class='bx bxs-bus-school' style='color:#db6e1b'></i>
+     <i class='bx bxs-car' style='color:#bbb4af'></i>
+     <p>Totals:  </p>
+    </div>
+    <div class="dif">
+     <h2>Cargo</h2>
+     <i class='bx bxs-plane-take-off' style='color:#161615'></i>
+     <i class='bx bxs-bus-school' style='color:#db6e1b'></i>
+     <i class='bx bxs-car' style='color:#bbb4af'></i>
+     <p>Totals:  </p>
+    </div>
+   </div>
+  </section>
+</body>
+</html>
