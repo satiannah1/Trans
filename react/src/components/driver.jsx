@@ -1,98 +1,234 @@
 import React, { useState } from 'react';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import '@fortawesome/fontawesome-free/css/all.min.css';
-import backgroundImage from './tr2.png';
-import Log from './login.jsx';
-import {Link} from 'react-router-dom'
+import '../App.css';
 
-const Trans = () => {
-  const [showLoginModal, setShowLoginModal] = useState(false);
+const FormComponent = () => {
+  const [user, setUser] = useState({
+    title: '',
+    firstname: '',
+    lastname: '',
+    position: '',
+    company: '',
+    businessarena: '',
+    employees: '',
+    streetno: '',
+    additional: '',
+    zip: '',
+    place: '',
+    country: '',
+    code: '',
+    phone: '',
+    email: '',
+  });
 
-  const handleClickLogin = () => {
-    setShowLoginModal(true);
+  const [error, setError] = useState(null);
+  const [successMessage, setSuccessMessage] = useState(null);
+
+  const handleChange = (key) => (event) => {
+    setUser({ ...user, [key]: event.target.value });
   };
-
-  const handleCloseModal = () => {
-    setShowLoginModal(false);
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    axios.post('http://localhost:3000/users', user)
+      .then(response => {
+        setSuccessMessage('User data saved successfully!');
+        setError(null);
+      })
+      .catch(error => {
+        setError('Failed to save user data');
+        setSuccessMessage(null);
+      });
   };
 
   return (
-    <div style={{ backgroundImage: `)`, backgroundSize: 'cover', minHeight: '100vh' }}>
-      <div className="bg-dark py-5 text-white text-center">
-        <div className="container">
-          <h1 className="font-effect-emboss mb-4">Trans</h1>
-        </div>
+    <section className="form-container">
+      <div className="card form-card one">
+        <h5>General Information</h5>
+        <form onSubmit={handleSubmit}>
+          <div className="form-group">
+            <label htmlFor="title">Title</label>
+            <input
+              type="text"
+              className="form-control"
+              id="title"
+              placeholder="Title"
+              onChange={handleChange('title')}
+              value={user.title}
+            />
+          </div>
+          <div className="form-row">
+            <div className="form-group col-md-6">
+              <label htmlFor="firstName">First Name</label>
+              <input
+                type="text"
+                className="form-control"
+                id="firstName"
+                placeholder="First Name"
+                onChange={handleChange('firstname')}
+                value={user.firstname}
+              />
+            </div>
+            <div className="form-group col-md-6">
+              <label htmlFor="lastName">Last Name</label>
+              <input
+                type="text"
+                className="form-control"
+                id="lastName"
+                placeholder="Last Name"
+                onChange={handleChange('lastname')}
+                value={user.lastname}
+              />
+            </div>
+          </div>
+          <div className="form-group">
+            <label htmlFor="position">Position</label>
+            <input
+              type="text"
+              className="form-control"
+              id="position"
+              placeholder="Position"
+              onChange={handleChange('position')}
+              value={user.position}
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="company">Company</label>
+            <input
+              type="text"
+              className="form-control"
+              id="company"
+              placeholder="Company"
+              onChange={handleChange('company')}
+              value={user.company}
+            />
+          </div>
+          <div className="form-row">
+            <div className="form-group col-md-6">
+              <label htmlFor="businessArena">Business Arena</label>
+              <input
+                type="text"
+                className="form-control"
+                id="businessArena"
+                placeholder="Business Arena"
+                onChange={handleChange('businessarena')}
+                value={user.businessarena}
+              />
+            </div>
+            <div className="form-group col-md-6">
+              <label htmlFor="employees">Employees</label>
+              <input
+                type="text"
+                className="form-control"
+                id="employees"
+                placeholder="Employees"
+                onChange={handleChange('employees')}
+                value={user.employees}
+              />
+            </div>
+          </div>
+        </form>
       </div>
-
-      <nav className="navbar navbar-expand-lg navbar-dark bg-dark" style={{ minHeight: '60px' }}>
-        <div className="container">
-          <a className="navbar-brand" href="#">Trans</a>
-          <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span className="navbar-toggler-icon"></span>
-          </button>
-          <div className="collapse navbar-collapse" id="navbarNav">
-            <ul className="navbar-nav ml-auto">
-              <li className="nav-item">
-                <Link to="/driver" ><a className="nav-link" href="#">HOME</a></Link>
-              </li>
-              <li className="nav-item">
-               <Link to="/register"> <a className="nav-link" href="">REGISTER</a></Link>
-              </li>
-              <li className="nav-item">
-              <Link to=""> <a className="nav-link" href="#">SERVICES</a></Link>
-
-              </li>
-            </ul>
+      <div className="card form-card two">
+        <h5>Contact Details</h5>
+        <form>
+          <div className="form-group">
+            <label htmlFor="streetNr">Street Nr</label>
+            <input
+              type="number"
+              className="form-control"
+              id="streetNr"
+              placeholder="Street Nr"
+              onChange={handleChange('streetno')}
+              value={user.streetno}
+            />
           </div>
-
-          <Link to="/login"><button onClick={handleClickLogin} className="btn btn-outline-light">Login</button> </Link>
-        </div>
-      </nav>
-
-      <section className="my-5">
-        <div className="container">
-          <form id="searchForm">
-            <div className="input-group">
-              <input type="search" className="form-control" id="searchInput" placeholder="Search..." aria-label="Search" aria-describedby="button-addon2" />
-              <div className="input-group-append">
-                <button className="btn btn-success" type="submit" id="searchButton"><i className="fa fa-search"></i></button>
-              </div>
-            </div>
-          </form>
-        </div>
-      </section>
-
-      <section className="bg-dark text-white py-5">
-        <div className="container">
-          <div className="row">
-            <div className="col-md-8 offset-md-2 text-center">
-              <h2>About Us</h2>
-              <p>This is an iconic website for transferring goods, people, warehousing, and cargo tracking.</p>
-              <p>For more info, call: <strong>0788888800</strong></p>
-            </div>
+          <div className="form-group">
+            <label htmlFor="additionalInfo">Additional Information</label>
+            <input
+              type="text"
+              className="form-control"
+              id="additionalInfo"
+              placeholder="Additional Information"
+              onChange={handleChange('additional')}
+              value={user.additional}
+            />
           </div>
-        </div>
-      </section>
-
-      {showLoginModal && (
-        <div className="modal show fade" style={{ display: 'block' }} tabIndex="-1" role="dialog">
-          <div className="modal-dialog" role="document">
-            <div className="modal-content">
-              <div className="modal-header">
-                <h5 className="modal-title">Login</h5>
-                <button type="button" className="close" onClick={handleCloseModal} aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <div className="modal-body">
-                <Log onClose={handleCloseModal} />
-              </div>
+          <div className="form-row">
+            <div className="form-group col-md-6">
+              <label htmlFor="zipCode">Zip Code</label>
+              <input
+                type="number"
+                className="form-control"
+                id="zipCode"
+                placeholder="Zip Code"
+                onChange={handleChange('zip')}
+                value={user.zip}
+              />
+            </div>
+            <div className="form-group col-md-6">
+              <label htmlFor="place">Place</label>
+              <input
+                type="text"
+                className="form-control"
+                id="place"
+                placeholder="Place"
+                onChange={handleChange('place')}
+                value={user.place}
+              />
             </div>
           </div>
-        </div>
-      )}
-    </div>
+          <div className="form-group">
+            <label htmlFor="country">Country</label>
+            <input
+              type="text"
+              className="form-control"
+              id="country"
+              placeholder="Country"
+              onChange={handleChange('country')}
+              value={user.country}
+            />
+          </div>
+          <div className="form-row">
+            <div className="form-group col-md-6">
+              <label htmlFor="code">Code</label>
+              <input
+                type="text"
+                className="form-control"
+                id="code"
+                placeholder="Code"
+                onChange={handleChange('code')}
+                value={user.code}
+              />
+            </div>
+            <div className="form-group col-md-6">
+              <label htmlFor="phoneNumber">Phone Number</label>
+              <input
+                type="text"
+                className="form-control"
+                id="phoneNumber"
+                placeholder="Phone Number"
+                onChange={handleChange('phone')}
+                value={user.phone}
+              />
+            </div>
+          </div>
+          <div className="form-group">
+            <label htmlFor="email">Your Email</label>
+            <input
+              type="email"
+              className="form-control"
+              id="email"
+              placeholder="Your Email"
+              onChange={handleChange('email')}
+              value={user.email}
+            />
+          </div>
+          <button type="submit">Register</button>
+        <a href="">View</a>
+          
+        </form>
+      </div>
+    </section>
   );
 };
 
-export default Trans;
+export default FormComponent;
