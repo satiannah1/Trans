@@ -29,7 +29,14 @@ const userSchema = new mongoose.Schema({
   company: String,
   businessarena: String,
   employees: String,
-  
+  streetno: String,
+  additional: String,
+  zip: String,
+  place: String,
+  country: String,
+  code: String,
+  phone: String,
+  email: String,
 });
 
 const User = mongoose.model('User', userSchema);
@@ -70,8 +77,8 @@ app.get('/users', async (req, res) => {
             <thead class="thead-dark">
               <tr>
                 <th>Title</th>
-                <th>Firstname</th>
-                <th>Lastname</th>
+                <th>First Name</th>
+                <th>Last Name</th>
                 <th>Position</th>
                 <th>Company</th>
                 <th>Business Arena</th>
@@ -94,6 +101,21 @@ app.get('/users', async (req, res) => {
           <td>${user.employees}</td>
           <td>
             <button class="btn btn-danger" onclick="deleteUser('${user._id}')">Delete</button>
+            <button class="btn btn-primary" onclick="editUser('${user._id}')">Edit</button>
+          </td>
+        </tr>
+        <tr id="editForm-${user._id}" style="display: none;">
+          <td colspan="8">
+            <form onsubmit="updateUserForm(event, '${user._id}')">
+              <input type="text" name="title" placeholder="Title" value="${user.title}" required />
+              <input type="text" name="firstname" placeholder="First Name" value="${user.firstname}" required />
+              <input type="text" name="lastname" placeholder="Last Name" value="${user.lastname}" required />
+              <input type="text" name="position" placeholder="Position" value="${user.position}" required />
+              <input type="text" name="company" placeholder="Company" value="${user.company}" required />
+              <input type="text" name="businessarena" placeholder="Business Arena" value="${user.businessarena}" required />
+              <input type="text" name="employees" placeholder="Employees" value="${user.employees}" required />
+              <button type="submit" class="btn btn-success">Update</button>
+            </form>
           </td>
         </tr>
       `;
@@ -120,6 +142,43 @@ app.get('/users', async (req, res) => {
               alert('Error deleting user');
             }
           }
+
+          function editUser(id) {
+            document.getElementById('editForm-' + id).style.display = 'table-row';
+          }
+
+          async function updateUserForm(event, id) {
+            event.preventDefault();
+            const form = event.target;
+            const updatedData = {
+              title: form.title.value,
+              firstname: form.firstname.value,
+              lastname: form.lastname.value,
+              position: form.position.value,
+              company: form.company.value,
+              businessarena: form.businessarena.value,
+              employees: form.employees.value,
+            };
+
+            try {
+              const response = await fetch('/users/' + id, {
+                method: 'PUT',
+                headers: {
+                  'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(updatedData)
+              });
+              if (response.ok) {
+                alert('User updated successfully');
+                location.reload();
+              } else {
+                alert('Error updating user');
+              }
+            } catch (error) {
+              console.error('Error updating user:', error);
+              alert('Error updating user');
+            }
+          }
         </script>
         <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
@@ -133,6 +192,24 @@ app.get('/users', async (req, res) => {
   } catch (error) {
     console.error('Error retrieving users:', error);
     res.status(500).json({ message: 'Error retrieving users' });
+  }
+});
+
+// PUT /api/users/:id - Update a user
+app.put('/users/:id', async (req, res) => {
+  const { id } = req.params;
+  const userData = req.body;
+
+  try {
+    const updatedUser = await User.findByIdAndUpdate(id, userData, { new: true });
+    if (!updatedUser) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+    console.log('Updated user:', updatedUser);
+    res.status(200).json(updatedUser);
+  } catch (error) {
+    console.error('Error updating user:', error);
+    res.status(500).json({ message: 'Error updating user' });
   }
 });
 
