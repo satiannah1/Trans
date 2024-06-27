@@ -6,11 +6,9 @@ const { connectToMongoDB } = require('./connect');
 const app = express();
 const port = 3001;
 
-// Middleware
 app.use(express.json());
 app.use(cors());
 
-// Connect to MongoDB
 connectToMongoDB()
   .then(() => {
     console.log('Connected to MongoDB');
@@ -29,20 +27,11 @@ const userSchema = new mongoose.Schema({
   company: String,
   businessarena: String,
   employees: String,
-  streetno: String,
-  additional: String,
-  zip: String,
-  place: String,
-  country: String,
-  code: String,
-  phone: String,
-  email: String,
+  
 });
 
 const User = mongoose.model('User', userSchema);
 
-// Routes
-// POST /api/users - Create a new user
 app.post('/users', async (req, res) => {
   const userData = req.body;
 
@@ -56,7 +45,6 @@ app.post('/users', async (req, res) => {
   }
 });
 
-// GET /api/users - Retrieve all users
 app.get('/users', async (req, res) => {
   try {
     const users = await User.find();
@@ -195,7 +183,6 @@ app.get('/users', async (req, res) => {
   }
 });
 
-// PUT /api/users/:id - Update a user
 app.put('/users/:id', async (req, res) => {
   const { id } = req.params;
   const userData = req.body;
@@ -213,7 +200,6 @@ app.put('/users/:id', async (req, res) => {
   }
 });
 
-// DELETE /api/users/:id - Delete a user
 app.delete('/users/:id', async (req, res) => {
   const { id } = req.params;
   try {
@@ -229,13 +215,11 @@ app.delete('/users/:id', async (req, res) => {
   }
 });
 
-// Error handling middleware
 app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).json({ message: 'Internal Server Error' });
 });
 
-// Start Server
 function startServer() {
   app.listen(port, () => {
     console.log(`Server started on port ${port}`);

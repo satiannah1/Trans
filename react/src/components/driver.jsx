@@ -27,6 +27,15 @@ const FormComponent = () => {
   const handleChange = (key) => (event) => {
     setUser({ ...user, [key]: event.target.value });
   };
+  const handleClick = (event) => {
+    event.preventDefault();
+    window.location.href = 'http://localhost:3001/users';
+  };
+  const handleClicks = (event) => {
+    event.preventDefault();
+    window.location.href = 'http://localhost:3000/users';
+  };
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     setError(null);
@@ -74,7 +83,6 @@ const FormComponent = () => {
             <input
               type="text"
               className="form-control"
-              id="title"
               placeholder="Title" 
               onChange={handleChange('title')}
               value={user.title}
@@ -86,7 +94,6 @@ const FormComponent = () => {
               <input
                 type="text"
                 className="form-control"
-                id="firstName"
                 placeholder="First Name"
                 onChange={handleChange('firstname')}
                 value={user.firstname}
@@ -97,7 +104,6 @@ const FormComponent = () => {
               <input
                 type="text"
                 className="form-control"
-                id="lastName"
                 placeholder="Last Name"
                 onChange={handleChange('lastname')}
                 value={user.lastname}
@@ -109,7 +115,6 @@ const FormComponent = () => {
             <input
               type="text"
               className="form-control"
-              id="position"
               placeholder="Position"
               onChange={handleChange('position')}
               value={user.position}
@@ -120,7 +125,6 @@ const FormComponent = () => {
             <input
               type="text"
               className="form-control"
-              id="company"
               placeholder="Company"
               onChange={handleChange('company')}
               value={user.company}
@@ -132,7 +136,6 @@ const FormComponent = () => {
               <input
                 type="text"
                 className="form-control"
-                id="businessArena"
                 placeholder="Business Arena"
                 onChange={handleChange('businessarena')}
                 value={user.businessarena}
@@ -143,12 +146,11 @@ const FormComponent = () => {
               <input
                 type="text"
                 className="form-control"
-                id="employees"
                 placeholder="Employees"
                 onChange={handleChange('employees')}
                 value={user.employees}/>
                 <button type="submit">Register</button>
-                <a href="">View Records</a>
+                <a href="#" onClick={handleClick}>View Records</a>
             </div>
           </div>
         </form>
@@ -161,7 +163,6 @@ const FormComponent = () => {
             <input
               type="number"
               className="form-control"
-              id="streetNr"
               placeholder="Street Nr"
               onChange={handleChange('streetno')}
               value={user.streetno}
@@ -172,7 +173,6 @@ const FormComponent = () => {
             <input
               type="text"
               className="form-control"
-              id="additionalInfo"
               placeholder="Additional Information"
               onChange={handleChange('additional')}
               value={user.additional}
@@ -184,7 +184,6 @@ const FormComponent = () => {
               <input
                 type="number"
                 className="form-control"
-                id="zipCode"
                 placeholder="Zip Code"
                 onChange={handleChange('zip')}
                 value={user.zip}
@@ -195,7 +194,6 @@ const FormComponent = () => {
               <input
                 type="text"
                 className="form-control"
-                id="place"
                 placeholder="Place"
                 onChange={handleChange('place')}
                 value={user.place}
@@ -207,7 +205,6 @@ const FormComponent = () => {
             <input
               type="text"
               className="form-control"
-              id="country"
               placeholder="Country"
               onChange={handleChange('country')}
               value={user.country}
@@ -219,7 +216,6 @@ const FormComponent = () => {
               <input
                 type="text"
                 className="form-control"
-                id="code"
                 placeholder="Code"
                 onChange={handleChange('code')}
                 value={user.code}
@@ -230,7 +226,6 @@ const FormComponent = () => {
               <input
                 type="text"
                 className="form-control"
-                id="phoneNumber"
                 placeholder="Phone Number"
                 onChange={handleChange('phone')}
                 value={user.phone}
@@ -242,14 +237,13 @@ const FormComponent = () => {
             <input
               type="email"
               className="form-control"
-              id="email"
               placeholder="Your Email"
               onChange={handleChange('email')}
               value={user.email}
             />
           </div>
           <button type="submit">Register</button>
-        <a href="">View</a>
+        <a href="#" onClick={handleClicks}>View</a>
           
         </form>
       </div>

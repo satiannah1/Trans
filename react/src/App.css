@@ -1,5 +1,4 @@
 #root {
-
   max-width: 1280px;
   margin: 0 auto;
   padding: 2rem;
@@ -12,9 +11,11 @@
   will-change: filter;
   transition: filter 300ms;
 }
+
 .logo:hover {
   filter: drop-shadow(0 0 2em #646cffaa);
 }
+
 .logo.react:hover {
   filter: drop-shadow(0 0 2em #61dafbaa);
 }
@@ -40,56 +41,71 @@
 
 .read-the-docs {
   color: #faf7f7;
- 
 }
-body{
-    background-size:cover ;
-    
+
+body {
+  background-size: cover;
 }
-input{
-  display: block; padding: 10px;margin: 20px; width: 6cm;border: none; background-color: black;
-  border-bottom: 2px solid rgb(225, 213, 213);
+
+input {
+  display: block;
+  padding: 10px;
+  margin: 20px;
   width: 11cm;
-  margin-right:30px ;
+  border: none;
+  background-color: black;
+  border-bottom: 2px solid rgb(225, 213, 213);
 }
-form{
+
+form {
   padding-left: 40px;
   padding-top: 50px;
-  width: 16cm;
   padding-bottom: 40px;
   text-align: left;
+  width: 100%;
 }
-button{background-color: black; border:2px solid rgb(123, 36, 36)};
+
+button {
+  background-color: black;
+  border: 2px solid rgb(123, 36, 36);
+}
 
 .form-container {
   display: flex;
   justify-content: space-around;
   margin: 20px;
+  flex-wrap: wrap;
 }
+
 .form-card {
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-  width: 100%;
+  width: 48%;
   max-width: 500px;
+  margin-bottom: 20px;
 }
+
 .form-card input {
   margin-bottom: 15px;
-  
 }
+
 .one {
   background-color: #ffffff;
   color: #434546;
 }
+
 .two {
   background-color: #101010;
   color: #e5eaed;
 }
+
 .two input {
   background-color: #222;
   border: none;
   color: #e5eaed;
 }
+
 .two input::placeholder {
   color: #aaa;
 }
