@@ -29,14 +29,7 @@ const userSchema = new mongoose.Schema({
   company: String,
   businessarena: String,
   employees: String,
-  streetno: String,
-  additional: String,
-  zip: String,
-  place: String,
-  country: String,
-  code: String,
-  phone: String,
-  email: String,
+  
 });
 
 const User = mongoose.model('User', userSchema);
@@ -44,42 +37,10 @@ const User = mongoose.model('User', userSchema);
 // Routes
 // POST /api/users - Create a new user
 app.post('/users', async (req, res) => {
-  const {
-    title,
-    firstname,
-    lastname,
-    position,
-    company,
-    businessarena,
-    employees,
-    streetno,
-    additional,
-    zip,
-    place,
-    country,
-    code,
-    phone,
-    email,
-  } = req.body;
+  const userData = req.body;
 
   try {
-    const newUser = await User.create({
-      title,
-      firstname,
-      lastname,
-      position,
-      company,
-      businessarena,
-      employees,
-      streetno,
-      additional,
-      zip,
-      place,
-      country,
-      code,
-      phone,
-      email,
-    });
+    const newUser = await User.create(userData);
     console.log('New user created:', newUser);
     res.status(201).json(newUser);
   } catch (error) {
@@ -88,95 +49,108 @@ app.post('/users', async (req, res) => {
   }
 });
 
+// GET /api/users - Retrieve all users
+app.get('/users', async (req, res) => {
+  try {
+    const users = await User.find();
+    console.log('Retrieved users:', users);
 
- 
-app.get('/user', async (req, res) => {
- try {
-   const drivers = await User.find();
-   console.log('Retrieved drivers:', users);
+    let tableHtml = `
+      <!DOCTYPE html>
+      <html lang="en">
+      <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Users</title>
+        <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+      </head>
+      <body>
+        <div class="container mt-5">
+          <table class="table table-bordered table-striped">
+            <thead class="thead-dark">
+              <tr>
+                <th>Title</th>
+                <th>Firstname</th>
+                <th>Lastname</th>
+                <th>Position</th>
+                <th>Company</th>
+                <th>Business Arena</th>
+                <th>Employees</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+    `;
 
-   let tableHtml = `
-     <!DOCTYPE html>
-     <html lang="en">
-     <head>
-       <meta charset="UTF-8">
-       <meta name="viewport" content="width=device-width, initial-scale=1.0">
-       <title>Drivers</title>
-       <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-     </head>
-     <body>
-       <div class="container mt-5">
-         <table class="table table-bordered table-striped">
-           <thead class="thead-dark">
-             <tr>
-               <th></th>
-               <th>Title</th>
-               <th>Firstname</th>
-               <th>Lastname</th>
-               <th>Position</th>
-               <th>Company</th>
-               <th>Bussiness Arena</th>
-               <th>Employees</th>
-               <th>Action</th>
-             </tr>
-           </thead>
-           <tbody>
-   `;
+    users.forEach((user) => {
+      tableHtml += `
+        <tr>
+          <td>${user.title}</td>
+          <td>${user.firstname}</td>
+          <td>${user.lastname}</td>
+          <td>${user.position}</td>
+          <td>${user.company}</td>
+          <td>${user.businessarena}</td>
+          <td>${user.employees}</td>
+          <td>
+            <button class="btn btn-danger" onclick="deleteUser('${user._id}')">Delete</button>
+          </td>
+        </tr>
+      `;
+    });
 
-   drivers.forEach((user) => {
-     tableHtml += `
-       <tr>
-         <td>${user.title}</td>
-         <td>${user.firstname}</td>
-         <td>${user.lastname}</td>
-         <td>${user.position}</td>
-         <td>${user.company}</td>
-         <td>${user.businessarena}</td>
-         <td>${user.employees}</td>
-         <td>
-           <button class="btn btn-danger" onclick="deleteDriver('${driver._id}')">Delete</button>
-         </td>
-       </tr>
-     `;
-   });
+    tableHtml += `
+            </tbody>
+          </table>
+        </div>
+        <script>
+          async function deleteUser(id) {
+            try {
+              const response = await fetch('/users/' + id, {
+                method: 'DELETE'
+              });
+              if (response.ok) {
+                alert('User deleted successfully');
+                location.reload();
+              } else {
+                alert('Error deleting user');
+              }
+            } catch (error) {
+              console.error('Error deleting user:', error);
+              alert('Error deleting user');
+            }
+          }
+        </script>
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+      </body>
+      </html>
+    `;
 
-   tableHtml += `
-           </tbody>
-         </table>
-       </div>
-       <script>
-         async function deleteDriver(id) {
-           try {
-             const response = await fetch('/drivers/' + id, {
-               method: 'DELETE'
-             });
-             if (response.ok) {
-               alert('Driver deleted successfully');
-               location.reload();
-             } else {
-               alert('Error deleting driver');
-             }
-           } catch (error) {
-             console.error('Error deleting driver:', error);
-             alert('Error deleting driver');
-           }
-         }
-       </script>
-       <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-       <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
-       <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-     </body>
-     </html>
-   `;
-
-   res.setHeader('Content-Type', 'text/html');
-   res.send(tableHtml);
- } catch (error) {
-   console.error('Error retrieving drivers:', error);
-   res.status(500).json({ message: 'Error retrieving drivers' });
- }
+    res.setHeader('Content-Type', 'text/html');
+    res.send(tableHtml);
+  } catch (error) {
+    console.error('Error retrieving users:', error);
+    res.status(500).json({ message: 'Error retrieving users' });
+  }
 });
 
+// DELETE /api/users/:id - Delete a user
+app.delete('/users/:id', async (req, res) => {
+  const { id } = req.params;
+  try {
+    const deletedUser = await User.findByIdAndDelete(id);
+    if (!deletedUser) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+    console.log('Deleted user:', deletedUser);
+    res.status(200).json({ message: 'User deleted successfully' });
+  } catch (error) {
+    console.error('Error deleting user:', error);
+    res.status(500).json({ message: 'Error deleting user' });
+  }
+});
 
 // Error handling middleware
 app.use((err, req, res, next) => {
@@ -184,20 +158,6 @@ app.use((err, req, res, next) => {
   res.status(500).json({ message: 'Internal Server Error' });
 });
 
-app.delete('/drivers/:id', async (req, res) => {
- const { id } = req.params;
- try {
-   const deletedDriver = await User.findByIdAndDelete(id);
-   if (!deletedDriver) {
-     return res.status(404).json({ message: 'Driver not found' });
-   }
-   console.log('Deleted driver:', deletedDriver);
-   res.status(200).json({ message: 'Driver deleted successfully' });
- } catch (error) {
-   console.error('Error deleting driver:', error);
-   res.status(500).json({ message: 'Error deleting driver' });
- }
-});
 // Start Server
 function startServer() {
   app.listen(port, () => {

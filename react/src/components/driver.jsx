@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import '../App.css';
+import axios from 'axios';
 
 const FormComponent = () => {
   const [user, setUser] = useState({
@@ -26,17 +27,41 @@ const FormComponent = () => {
   const handleChange = (key) => (event) => {
     setUser({ ...user, [key]: event.target.value });
   };
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    axios.post('http://localhost:3000/users', user)
-      .then(response => {
-        setSuccessMessage('User data saved successfully!');
-        setError(null);
-      })
-      .catch(error => {
-        setError('Failed to save user data');
-        setSuccessMessage(null);
-      });
+    setError(null);
+    setSuccessMessage(null);
+
+    try {
+      const response = await axios.post('http://localhost:3001/users', user);
+
+      if (response.status === 201) {
+        setSuccessMessage('User registered successfully.');
+        setUser({ name: '', email: '' });
+      } else {
+        setError('Failed to register user.');
+      }
+    } catch (error) {
+      setError(error.response?.data?.message || 'An error occurred');
+    }
+  };
+  const handleSubmits = async (event) => {
+    event.preventDefault();
+    setError(null);
+    setSuccessMessage(null);
+
+    try {
+      const response = await axios.post('http://localhost:3000/users', user);
+
+      if (response.status === 201) {
+        setSuccessMessage('User registered successfully.');
+        setUser({ name: '', email: '' });
+      } else {
+        setError('Failed to register user.');
+      }
+    } catch (error) {
+      setError(error.response?.data?.message || 'An error occurred');
+    }
   };
 
   return (
@@ -121,15 +146,16 @@ const FormComponent = () => {
                 id="employees"
                 placeholder="Employees"
                 onChange={handleChange('employees')}
-                value={user.employees}
-              />
+                value={user.employees}/>
+                <button type="submit">Register</button>
+                <a href="">View Records</a>
             </div>
           </div>
         </form>
       </div>
       <div className="card form-card two">
         <h5>Contact Details</h5>
-        <form>
+        <form onSubmit={handleSubmits}>
           <div className="form-group">
             <label htmlFor="streetNr">Street Nr</label>
             <input
