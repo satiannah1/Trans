@@ -75,7 +75,7 @@ const FormComponent = () => {
               type="text"
               className="form-control"
               id="title"
-              placeholder="Title"
+              placeholder="Title" 
               onChange={handleChange('title')}
               value={user.title}
             />
